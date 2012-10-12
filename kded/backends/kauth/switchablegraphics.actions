@@ -1,0 +1,14 @@
+[Domain]
+Name=switchablegraphics
+Icon=cpu
+URL="http://admiral0.org"
+
+[org.admiral0.switchablegraphics.mountdebugfs]
+Name=Mount Debugfs
+Description=Attempt to mount debugfs
+Policy=yes
+
+[org.admiral0.switchablegraphics.vgaswitcheroo]
+Name=Perform switch
+Description=Ask system to power off or to switch gpu using vgaswitcheroo
+Policy=yes

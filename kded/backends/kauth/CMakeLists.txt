@@ -1,0 +1,7 @@
+kde4_install_auth_actions(org.admiral0.switchablegraphics switchablegraphics.actions)
+
+kde4_add_executable(switchablegraphicshelper switchablegraphicshelper.cpp)
+target_link_libraries(switchablegraphicshelper ${KDE4_KDECORE_LIBS})
+install(TARGETS switchablegraphicshelper DESTINATION ${LIBEXEC_INSTALL_DIR})
+ 
+kde4_install_auth_helper_files(switchablegraphicshelper org.admiral0.switchablegraphics root)

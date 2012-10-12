@@ -1,0 +1,6 @@
+This is a manager for switchable graphics made for KDE
+
+It includes
+ * KDED Module. Manages all the logic
+ * KCM Module. Settings.
+ * Applet

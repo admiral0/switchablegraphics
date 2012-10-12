@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Service
+Name=Switchable Graphics
+Comment=Manages multiple graphic cards
+X-KDE-ServiceTypes=KDEDModule
+X-KDE-StartupNotify=false
+X-KDE-Library=switchablegraphics
+X-KDE-Kded-autoload=yes
+X-KDE-Kded-load-on-demand=true
+

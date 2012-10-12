@@ -1,0 +1,15 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.admiral0.Switchablegraphics">
+    <method name="Integrated" />
+    <method name="Discrete" />
+    <method name="GetStatus">
+      <arg name="devicelist" type="a(issiiiiii)" direction="out">
+	<annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="DeviceList"/>
+    </method>
+    <signal name="StatusChanged">
+      <arg direction="out" type="a(issiiiiii)" name="devices"/>
+    </signal>
+  </interface>
+</node>
