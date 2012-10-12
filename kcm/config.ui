@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>switchablegraphics</class>
+ <widget class="QWidget" name="switchablegraphics">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,24 +13,82 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QCheckBox" name="powerManagement">
-     <property name="text">
-      <string>Enable Power Management</string>
+    <widget class="QGroupBox" name="autoSwitch">
+     <property name="title">
+      <string>Enable Automatic Switch</string>
      </property>
-     <property name="checked">
+     <property name="checkable">
       <bool>true</bool>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="lowBatSwitchFlag">
+        <property name="text">
+         <string>Enable switch on low battery</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="perc_layout">
+        <item>
+         <widget class="QSlider" name="sliderPerc">
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>20</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="inputPerc">
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>20</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="statusIcon">
-     <property name="text">
-      <string>Enable status icon</string>
+    <widget class="QGroupBox" name="statusIconFlag">
+     <property name="title">
+      <string>Enable Status Icon</string>
      </property>
-     <property name="checked">
+     <property name="checkable">
       <bool>true</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="notificationsFlag">
+        <property name="text">
+         <string>Enable Notifications</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="infoLabel">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
@@ -47,178 +105,71 @@
      </property>
     </spacer>
    </item>
-   <item>
-    <widget class="QCheckBox" name="notifications">
-     <property name="text">
-      <string>Enable notifications</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QCheckBox" name="checkBox">
-       <property name="text">
-        <string>Switch at Low Battery Level:</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="batLevel_disp">
-       <property name="text">
-        <string>0</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="perc_disp">
-       <property name="text">
-        <string>%</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QFormLayout" name="formLayout">
-     <property name="fieldGrowthPolicy">
-      <enum>QFormLayout::ExpandingFieldsGrow</enum>
-     </property>
-     <item row="0" column="1">
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>389</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <widget class="QLabel" name="desc_label">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QSlider" name="batteryLevel">
-     <property name="maximum">
-      <number>100</number>
-     </property>
-     <property name="value">
-      <number>20</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="tickPosition">
-      <enum>QSlider::TicksAbove</enum>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources/>
  <connections>
   <connection>
-   <sender>statusIcon</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>notifications</receiver>
-   <slot>setEnabled(bool)</slot>
+   <sender>sliderPerc</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>inputPerc</receiver>
+   <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>55</x>
-     <y>100</y>
+     <x>100</x>
+     <y>75</y>
     </hint>
     <hint type="destinationlabel">
-     <x>57</x>
-     <y>120</y>
+     <x>347</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>powerManagement</sender>
+   <sender>lowBatSwitchFlag</sender>
    <signal>toggled(bool)</signal>
-   <receiver>checkBox</receiver>
+   <receiver>sliderPerc</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>98</x>
-     <y>10</y>
+     <x>80</x>
+     <y>46</y>
     </hint>
     <hint type="destinationlabel">
-     <x>101</x>
-     <y>38</y>
+     <x>123</x>
+     <y>79</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>powerManagement</sender>
+   <sender>lowBatSwitchFlag</sender>
    <signal>toggled(bool)</signal>
-   <receiver>batteryLevel</receiver>
+   <receiver>inputPerc</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>133</x>
-     <y>13</y>
+     <x>258</x>
+     <y>43</y>
     </hint>
     <hint type="destinationlabel">
-     <x>184</x>
-     <y>68</y>
+     <x>361</x>
+     <y>67</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>checkBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>batteryLevel</receiver>
-   <slot>setEnabled(bool)</slot>
+   <sender>inputPerc</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sliderPerc</receiver>
+   <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>135</x>
-     <y>36</y>
+     <x>354</x>
+     <y>84</y>
     </hint>
     <hint type="destinationlabel">
-     <x>141</x>
-     <y>61</y>
+     <x>198</x>
+     <y>77</y>
     </hint>
    </hints>
   </connection>

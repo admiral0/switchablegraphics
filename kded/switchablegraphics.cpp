@@ -221,4 +221,10 @@ void SwitchableGraphics::switchDone(int result)
     }
 }
 
+QString SwitchableGraphics::Backend()
+{
+  return manager->getBackendName();
+}
+
+
 #include "switchablegraphics.moc"

@@ -40,8 +40,9 @@ public slots:
   void Integrated();
   void Discrete();
   QList<SwitcherBackend::Device> GetStatus();
+  QString Backend();
 signals:
-  void StatusChanged();
+  void StatusChanged(QList<SwitcherBackend::Device> dev);
 private slots:
   void updateUi(QList<SwitcherBackend::Device> devs);
   void switchDone(int result);

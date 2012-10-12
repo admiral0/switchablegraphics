@@ -2,14 +2,18 @@
 "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.admiral0.Switchablegraphics">
+    <signal name="StatusChanged">
+      <arg direction="out" type="a(issiiiiii)" name="devs"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="DeviceList"/>
+    </signal>
     <method name="Integrated" />
     <method name="Discrete" />
+    <method name="Backend">
+      <arg name="name" type="s" direction="out" />
+    </method>
     <method name="GetStatus">
       <arg name="devicelist" type="a(issiiiiii)" direction="out">
 	<annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="DeviceList"/>
     </method>
-    <signal name="StatusChanged">
-      <arg direction="out" type="a(issiiiiii)" name="devices"/>
-    </signal>
   </interface>
 </node>
