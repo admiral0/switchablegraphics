@@ -30,55 +30,27 @@
 #include <QDBusArgument>
 
 #include "switchablegraphicsadaptor.h"
+#include "../common/dbusdefs.cpp"
 
-
-using namespace Solid;
 
 K_PLUGIN_FACTORY(SwitchableGraphicsFactory,registerPlugin<SwitchableGraphics>();)
 K_EXPORT_PLUGIN(SwitchableGraphicsFactory("switchablegraphics"))
 
 SwitchableGraphics::SwitchableGraphics(QObject* parent, const QList< QVariant >&): KDEDModule(parent)
 {
-    qDBusRegisterMetaType< DeviceStruct >();
-    qDBusRegisterMetaType< DeviceList >();
-    
+    init_dbus_metatype();
+
     icon=0;
     igd=false;
     manager=BackendManager::instance(); //FIXME
     config=new KConfig("switchablegraphicsrc");
-    batenabled=config->group("General").readEntry<bool>("powerManagement",true);
-    notifications=config->group("General").readEntry<bool>("displayNotifications",true);
-    lowBat=config->group("General").readEntry<int>("lowBatteryPercentage",20);
     switchDelayed=false;
-    if(batenabled) {
-        QList< Device > list = Solid::Device::listFromType(Solid::DeviceInterface::Battery, QString());
-        if(!list.empty()) {
-            battery=list.first().as<Solid::Battery>();
-            connect(battery,SIGNAL(plugStateChanged(bool,QString)),SLOT(batteryStatusChanged(bool,QString)));
-            if(config->group("General").readEntry<bool>("lowBatteryManagement",true)) {
-                connect(battery,SIGNAL(chargePercentChanged(int,QString)),SLOT(batteryChargeChanged(int,QString)));
-            }
-        }
-
+    UpdateSettings();
+    QList< Solid::Device > list = Solid::Device::listFromType(Solid::DeviceInterface::Battery, QString());
+    if(!list.empty()) {
+        battery=list.first().as<Solid::Battery>();
     }
-    if(config->group("General").readEntry<bool>("displayNotifier",true)) {
-        icon=new KStatusNotifierItem("icon");
-	icon->setTitle(i18n("Switchable Graphics"));
-        icon->setIconByName("cpu");
-        icon->setCategory(KStatusNotifierItem::Hardware);
-        icon->setStandardActionsEnabled(false);
-
-        //We want the icon to be visible in the tray if autoswitching is off
-        icon->setStatus((batenabled) ? KStatusNotifierItem::Passive : KStatusNotifierItem::Active);
-        menu=new KMenu(i18n("Switchable Graphics"),0);
-        a_switchNow=menu->addAction(QIcon::fromTheme("cpu"),i18n("Switch Card"));
-        a_cancelSwitch=menu->addAction(QIcon::fromTheme("dialog-cancel"),i18n("Cancel Switch"));
-        icon->setContextMenu(menu);
-        connect(a_cancelSwitch,SIGNAL(triggered(bool)),SLOT(cancelDelayedSwitch()));
-        connect(a_switchNow,SIGNAL(triggered(bool)),SLOT(switchNow()));
-	a_cancelSwitch->setEnabled(false);
-    }
-    connect(manager,SIGNAL(deviceListUpdated(QList<SwitcherBackend::Device>)),SLOT(updateUi(QList<SwitcherBackend::Device>)));
+    connect(manager,SIGNAL(deviceListUpdated(QList<Device>)),SLOT(updateUi(QList<Device>)));
     connect(manager,SIGNAL(switchPerformed(int)),SLOT(switchDone(int)));
     manager->updateDevices();
 
@@ -86,18 +58,15 @@ SwitchableGraphics::SwitchableGraphics(QObject* parent, const QList< QVariant >&
     new SwitchablegraphicsAdaptor(this);
     QDBusConnection::sessionBus().registerService("org.admiral0.switchablegraphics");
     QDBusConnection::sessionBus().registerObject("/org/admiral0/switchablegraphics",this);
-
 }
 
 SwitchableGraphics::~SwitchableGraphics()
 {
-   manager->deleteLater();
+    manager->deleteLater();
     delete config;
-    if(icon) {
-        icon->deleteLater();
-    }
-    if(battery)
-        battery->deleteLater();
+    if (icon)
+      icon->deleteLater();
+    battery->deleteLater();
 }
 void SwitchableGraphics::Discrete()
 {
@@ -106,7 +75,7 @@ void SwitchableGraphics::Discrete()
     if(icon)
         icon->setToolTip("cpu",i18n("Performing Switch"),i18n("Switching GPU to discrete card"));
 }
-QList< SwitcherBackend::Device > SwitchableGraphics::GetStatus()
+QList< Device > SwitchableGraphics::GetStatus()
 {
     return cache;
 }
@@ -116,25 +85,6 @@ void SwitchableGraphics::Integrated()
     manager->integrated();
     if(icon)
         icon->setToolTip("cpu",i18n("Performing Switch"),i18n("Switching GPU to integrated card"));
-}
-
-QDBusArgument &operator<<(QDBusArgument &argument, const DeviceStruct &d)
-{
-
-    argument.beginStructure();
-    argument << d.index << d.vendor << d.device << d.devtype << d.domain << d.bus << d.device << d.func << d.status;
-    argument.endStructure();
-
-
-    return argument;
-}
-
-const QDBusArgument &operator>>(const QDBusArgument &argument, DeviceStruct &d)
-{
-    argument.beginStructure();
-    argument >> d.index >> d.vendor >> d.device >> d.devtype >> d.domain >> d.bus >> d.device >> d.func >> d.status;
-    argument.endStructure();
-    return argument;
 }
 
 void SwitchableGraphics::batteryChargeChanged(int percent, QString udi)
@@ -164,11 +114,11 @@ void SwitchableGraphics::switchNow()
 {
     manager->doSwitch();
 }
-void SwitchableGraphics::updateUi(QList< SwitcherBackend::Device > devs)
+void SwitchableGraphics::updateUi(QList< Device > devs)
 {
 
     cache.clear();
-    foreach(SwitcherBackend::Device d,devs) {
+    foreach(Device d,devs) {
         cache.append(d);
     }
     if(icon) {
@@ -186,7 +136,7 @@ void SwitchableGraphics::updateUi(QList< SwitcherBackend::Device > devs)
         status.append("</b><br/>");
         int s=devs.size();
         int i=0;
-        foreach(SwitcherBackend::Device d,devs) {
+        foreach(Device d,devs) {
             status.append("<i>");
             status.append(d.vendor);
             status.append(" ");
@@ -223,7 +173,45 @@ void SwitchableGraphics::switchDone(int result)
 
 QString SwitchableGraphics::Backend()
 {
-  return manager->getBackendName();
+    return manager->getBackendName();
+}
+
+void SwitchableGraphics::UpdateSettings()
+{
+//TODO
+    batenabled=config->group("General").readEntry<bool>("powerManagement",true);
+    notifications=config->group("General").readEntry<bool>("displayNotifications",true);
+    lowBat=config->group("General").readEntry<int>("lowBatteryPercentage",20);
+    bool lowBatEnable=config->group("General").readEntry<bool>("lowBatteryManagement",true);
+
+    if(config->group("General").readEntry<bool>("displayNotifier",true)) {
+	icon=new KStatusNotifierItem();
+        icon->setTitle(i18n("Switchable Graphics"));
+        icon->setIconByName("cpu");
+        icon->setCategory(KStatusNotifierItem::Hardware);
+        icon->setStandardActionsEnabled(false);
+
+        //We want the icon to be visible in the tray if autoswitching is off
+        icon->setStatus((batenabled) ? KStatusNotifierItem::Passive : KStatusNotifierItem::Active);
+        menu=new KMenu(i18n("Switchable Graphics"),0);
+        a_switchNow=menu->addAction(QIcon::fromTheme("cpu"),i18n("Switch Card"));
+        a_cancelSwitch=menu->addAction(QIcon::fromTheme("dialog-cancel"),i18n("Cancel Switch"));
+        icon->setContextMenu(menu);
+        connect(a_cancelSwitch,SIGNAL(triggered(bool)),SLOT(cancelDelayedSwitch()));
+        connect(a_switchNow,SIGNAL(triggered(bool)),SLOT(switchNow()));
+        a_cancelSwitch->setEnabled(false);
+    }else{
+	icon->disconnect();
+	icon->deleteLater();
+    }
+    if(batenabled){
+      connect(battery,SIGNAL(plugStateChanged(bool,QString)),SLOT(batteryStatusChanged(bool,QString)));
+        if(lowBatEnable) {
+            connect(battery,SIGNAL(chargePercentChanged(int,QString)),SLOT(batteryChargeChanged(int,QString)));
+        }
+    }else{
+      battery->disconnect();
+    }
 }
 
 

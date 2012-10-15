@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QGroupBox" name="autoSwitch">
      <property name="title">
@@ -86,10 +86,19 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="infoLabel">
-     <property name="text">
-      <string/>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Info</string>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="infoLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

@@ -25,7 +25,7 @@
 #include <Solid/Battery>
 #include <KStatusNotifierItem>
 #include "backendmanager.h"
-#include "dbusdefs.h"
+#include "../common/dbusdefs.h"
 
 class QAction;
 class KMenu;
@@ -39,12 +39,13 @@ public:
 public slots:
   void Integrated();
   void Discrete();
-  QList<SwitcherBackend::Device> GetStatus();
+  QList<Device> GetStatus();
   QString Backend();
+  void UpdateSettings();
 signals:
-  void StatusChanged(QList<SwitcherBackend::Device> dev);
+  void StatusChanged(QList<Device> dev);
 private slots:
-  void updateUi(QList<SwitcherBackend::Device> devs);
+  void updateUi(QList<Device> devs);
   void switchDone(int result);
   void batteryStatusChanged(bool plugged,QString udi);
   void batteryChargeChanged(int percent,QString udi);
@@ -60,7 +61,7 @@ private:
   KConfig *config;
   Solid::Battery *battery;
   KStatusNotifierItem *icon;
-  QList<SwitcherBackend::Device> cache;
+  QList<Device> cache;
   KMenu *menu;
   QAction *a_switchNow;
   QAction *a_cancelSwitch;

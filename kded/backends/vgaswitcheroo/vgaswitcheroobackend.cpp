@@ -55,6 +55,7 @@ int VgaSwitcherooBackend::discrete()
         if(d.devtype==DEVICE_DISCRETE && d.status==USED)
             return SWITCH_SUCCESS;
     }
+    sendString("OFF"); //Kill all pending switches
     QString sw=sendString("DDIS");
     if(!sw.isEmpty()) {
         kDebug()<< "Error reported is: \"" <<sw<<"\"";
@@ -62,7 +63,7 @@ int VgaSwitcherooBackend::discrete()
     }
     return SWITCH_DELAYED;
 }
-const QList< SwitcherBackend::Device > VgaSwitcherooBackend::getDevices()
+const QList< Device > VgaSwitcherooBackend::getDevices()
 {
     return devices;
 }
@@ -85,6 +86,7 @@ int VgaSwitcherooBackend::integrated()
 	return SWITCH_SUCCESS;
       }
     }
+    sendString("OFF"); //Kill all pending switches
     QString sw=sendString("DIGD");
     if(!sw.isEmpty()) {
         kDebug()<< "Error reported is: \"" <<sw<<"\"";

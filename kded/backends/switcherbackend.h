@@ -21,24 +21,13 @@
 
 #include <QObject>
 #include <QString>
+#include "../../common/dbusdefs.h"
 
 
 class SwitcherBackend : public QObject
 {
   Q_OBJECT
 public:
-  struct Device{
-    int index;
-    QString vendor;
-    QString device;
-    int devtype;
-    int domain;
-    int bus;
-    int dev;
-    int func;
-    int status;
-  };
-  
   enum {
     OFF=0,
     ON=1,

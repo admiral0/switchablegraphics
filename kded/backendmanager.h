@@ -38,7 +38,7 @@ private slots:
 signals:
     void needsUpdateDevicesInternal();
     void switchPerformed(int result);
-    void deviceListUpdated(QList<SwitcherBackend::Device> devices);
+    void deviceListUpdated(QList<Device> devices);
 private:
     BackendManager();
     static BackendManager* _self;

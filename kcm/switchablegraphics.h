@@ -1,4 +1,5 @@
 /*
+    <one line to give the program's name and a brief idea of what it does.>
     Copyright (C) 2012  Radu Andries <admiral0@tuxfamily.org>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,20 +17,28 @@
 */
 
 
-#include "nullbackend.h"
+#ifndef SWITCHABLEGRAPHICS_H
+#define SWITCHABLEGRAPHICS_H
 
-int NullBackend::discrete()
+#include <KCModule>
+#include "ui_switchablegraphicsconfig.h"
+#include "SwitchableGraphicsIface.h"
+
+class SwitchableGraphics : public KCModule, private Ui_switchablegraphics
 {
-  return SWITCH_SUCCESS;
-}
+  Q_OBJECT
+    
+public:
+    SwitchableGraphics(QWidget* parent = 0, const QVariantList& args = QVariantList());
+    virtual ~SwitchableGraphics();
+    
+public slots:  
+    void load();
+    void save();
+private:
+  void connectModifications();
+  KConfig *config;
+  OrgAdmiral0SwitchablegraphicsInterface *iface;
+};
 
-int NullBackend::integrated()
-{
-  return SWITCH_SUCCESS;
-}
-
-const QList< Device > NullBackend::getDevices()
-{
-  return QList< Device >();
-}
-
+#endif // SWITCHABLEGRAPHICS_H

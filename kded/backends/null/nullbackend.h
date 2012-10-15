@@ -28,7 +28,7 @@ class NullBackend : public SwitcherBackend
 public:
     int discrete();
     int integrated();
-    const QList< SwitcherBackend::Device > getDevices();
+    const QList< Device > getDevices();
 };
 
 #endif // NULLBACKEND_H

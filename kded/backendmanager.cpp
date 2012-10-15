@@ -66,7 +66,7 @@ void BackendManager::updateDevices()
 
 void BackendManager::cancelDelayedSwitch()
 {
-  foreach(SwitcherBackend::Device d, backend->getDevices()){
+  foreach(Device d, backend->getDevices()){
     if(d.devtype==SwitcherBackend::DEVICE_INTEGRATED && d.status==SwitcherBackend::USED){
       integrated();
       return;
@@ -79,7 +79,7 @@ void BackendManager::cancelDelayedSwitch()
 }
 void BackendManager::doSwitch()
 {
-  foreach(SwitcherBackend::Device d, backend->getDevices()){
+  foreach(Device d, backend->getDevices()){
     if(d.devtype==SwitcherBackend::DEVICE_INTEGRATED && d.status==SwitcherBackend::USED){
       discrete();
       return;
@@ -92,7 +92,7 @@ void BackendManager::doSwitch()
 }
 void BackendManager::updateDevicesInternal()
 {
-  QList<SwitcherBackend::Device> lists;
+  QList<Device> lists;
   lists= backend->getDevices();
   emit deviceListUpdated(lists);
 }

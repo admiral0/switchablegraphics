@@ -12,8 +12,9 @@
       <arg name="name" type="s" direction="out" />
     </method>
     <method name="GetStatus">
-      <arg name="devicelist" type="a(issiiiiii)" direction="out">
-	<annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="DeviceList"/>
+      <arg name="devicelist" type="a(issiiiiii)" direction="out" />
+	<annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="DeviceList" />
     </method>
+    <method name="UpdateSettings" />
   </interface>
 </node>

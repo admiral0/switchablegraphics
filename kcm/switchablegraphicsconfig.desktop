@@ -1,0 +1,20 @@
+[Desktop Entry]
+Exec=kcmshell4 kcm_switchablegraphics
+Icon=cpu
+Type=Service
+X-KDE-ServiceTypes=KCModule
+
+X-KDE-Library=kcm_switchablegraphics
+X-KDE-ParentApp=kcontrol
+
+X-KDE-System-Settings-Parent-Category=power-management
+X-KDE-Weight=150
+
+Name=Switchable Graphics
+Name[it]=GPU Commutabili
+
+
+Comment=Configure Switchable Graphics
+Comment[it]=Gestisci le schede grafiche commutabili
+
+X-KDE-Keywords=system,power,power management,energy,laptop,battery,suspension,AC,suspend,hibernate,brightness,performance,lid
