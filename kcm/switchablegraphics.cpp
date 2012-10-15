@@ -1,5 +1,4 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
     Copyright (C) 2012  Radu Andries <admiral0@tuxfamily.org>
 
     This program is free software: you can redistribute it and/or modify
