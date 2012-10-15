@@ -31,7 +31,7 @@ SwitchableGraphics::SwitchableGraphics(QWidget* parent, const QVariantList& args
 {
   init_dbus_metatype();
   KAboutData *about = new KAboutData(
-     "Switchable Graphics", 0, ki18n( "..." ),
+     "SwitchableGraphics", 0, ki18n( "..." ),
      KDE_VERSION_STRING, KLocalizedString(), KAboutData::License_GPL_V3,
      ki18n( "Copyright 2012 Radu Andries" ) );
    about->addAuthor( ki18n("Radu Andries") );

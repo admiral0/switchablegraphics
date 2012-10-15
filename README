@@ -4,3 +4,6 @@ It includes
  * KDED Module. Manages all the logic
  * KCM Module. Settings.
  * Applet
+
+Supported hardware:
+ * MUXed switchable graphics supported by vgaswitcheroo

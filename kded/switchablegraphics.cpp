@@ -45,11 +45,11 @@ SwitchableGraphics::SwitchableGraphics(QObject* parent, const QList< QVariant >&
     manager=BackendManager::instance(); //FIXME
     config=new KConfig("switchablegraphicsrc");
     switchDelayed=false;
-    UpdateSettings();
     QList< Solid::Device > list = Solid::Device::listFromType(Solid::DeviceInterface::Battery, QString());
     if(!list.empty()) {
         battery=list.first().as<Solid::Battery>();
     }
+    UpdateSettings();
     connect(manager,SIGNAL(deviceListUpdated(QList<Device>)),SLOT(updateUi(QList<Device>)));
     connect(manager,SIGNAL(switchPerformed(int)),SLOT(switchDone(int)));
     manager->updateDevices();

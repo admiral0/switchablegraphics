@@ -10,3 +10,4 @@ include_directories( ${KDE4_INCLUDES} ${KDE4WORKSPACE_INCLUDE_DIR} ${QT_INCLUDES
 add_subdirectory(kded)
 add_subdirectory(kcm)
 add_subdirectory(applet)
+add_subdirectory(i18n)
