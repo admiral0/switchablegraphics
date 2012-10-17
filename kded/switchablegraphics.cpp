@@ -210,7 +210,8 @@ void SwitchableGraphics::UpdateSettings()
             connect(battery,SIGNAL(chargePercentChanged(int,QString)),SLOT(batteryChargeChanged(int,QString)));
         }
     }else{
-      battery->disconnect();
+      if(battery)
+	QObject::disconnect(battery,SIGNAL(chargePercentChanged(int,QString)),0,0);
     }
 }
 
