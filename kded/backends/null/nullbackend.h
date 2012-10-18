@@ -19,7 +19,7 @@
 #ifndef NULLBACKEND_H
 #define NULLBACKEND_H
 
-#include <../../home/admiral0/projects/switchablegraphics/kded/backends/switcherbackend.h>
+#include <../switcherbackend.h>
 
 
 class NullBackend : public SwitcherBackend
