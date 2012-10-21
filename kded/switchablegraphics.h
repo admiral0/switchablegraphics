@@ -41,7 +41,7 @@ public slots:
   void Discrete();
   QList<Device> GetStatus();
   QString Backend();
-  void UpdateSettings();
+  void UpdateSettings(bool startup=false);
 signals:
   void StatusChanged(QList<Device> dev);
 private slots:

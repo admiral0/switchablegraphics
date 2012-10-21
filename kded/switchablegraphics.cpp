@@ -49,7 +49,7 @@ SwitchableGraphics::SwitchableGraphics(QObject* parent, const QList< QVariant >&
     if(!list.empty()) {
         battery=list.first().as<Solid::Battery>();
     }
-    UpdateSettings();
+    UpdateSettings(true);
     connect(manager,SIGNAL(deviceListUpdated(QList<Device>)),SLOT(updateUi(QList<Device>)));
     connect(manager,SIGNAL(switchPerformed(int)),SLOT(switchDone(int)));
     manager->updateDevices();
@@ -176,7 +176,7 @@ QString SwitchableGraphics::Backend()
     return manager->getBackendName();
 }
 
-void SwitchableGraphics::UpdateSettings()
+void SwitchableGraphics::UpdateSettings(bool startup)
 {
 //TODO
     batenabled=config->group("General").readEntry<bool>("powerManagement",true);
@@ -201,8 +201,10 @@ void SwitchableGraphics::UpdateSettings()
         connect(a_switchNow,SIGNAL(triggered(bool)),SLOT(switchNow()));
         a_cancelSwitch->setEnabled(false);
     }else{
+      if(!startup){
 	icon->disconnect();
 	icon->deleteLater();
+      }
     }
     if(batenabled){
       connect(battery,SIGNAL(plugStateChanged(bool,QString)),SLOT(batteryStatusChanged(bool,QString)));
@@ -210,7 +212,7 @@ void SwitchableGraphics::UpdateSettings()
             connect(battery,SIGNAL(chargePercentChanged(int,QString)),SLOT(batteryChargeChanged(int,QString)));
         }
     }else{
-      if(battery)
+      if(battery && !startup)
 	QObject::disconnect(battery,SIGNAL(chargePercentChanged(int,QString)),0,0);
     }
 }
